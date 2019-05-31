@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Евгений Сухалинцев](https://up.htmlacademy.ru/javascript/17/user/847405).
-* Наставник: `Неизвестно`.
+* Наставник: [Владимир Якушкин] (https://htmlacademy.ru/profile/id126208)
 
 ---
 
