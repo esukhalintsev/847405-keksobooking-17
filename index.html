@@ -7,6 +7,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кексобукинг</title>
 </head>
+
 <body>
 
   <main>
@@ -30,7 +31,9 @@
               <path d="M35,35m-23,0a23,23 0 1,1 46,0a23,23 0 1,1 -46,0" id="tophalf" />
             </defs>
             <ellipse cx="35" cy="35" rx="35" ry="35" fill="rgba(255, 86, 53, 0.7)" />
-            <text><textPath xlink:href="#tophalf" startOffset="0">Поставь меня куда-нибудь</textPath></text>
+            <text>
+              <textPath xlink:href="#tophalf" startOffset="0">Поставь меня куда-нибудь</textPath>
+            </text>
           </svg>
         </button>
       </div>
@@ -76,7 +79,7 @@
             <label class="map__feature map__feature--elevator" for="filter-elevator">Лифт</label>
             <input type="checkbox" name="features" value="conditioner" id="filter-conditioner" class="map__checkbox visually-hidden">
             <label class="map__feature map__feature--conditioner" for="filter-conditioner">Кондиционер</label>
-           </fieldset>
+          </fieldset>
         </form>
       </div>
     </section>
@@ -240,13 +243,12 @@
     </div>
   </template>
 
-  <!-- Сообщение об ошибке создания объеявления -->
+  <!-- Сообщение об ошибке создания объявления -->
   <template id="error">
     <div class="error">
       <p class="error__message">Ошибка загрузки объявления</p>
       <button class="error__button" href="#">Попробовать снова</button>
     </div>
   </template>
-
-</body>
-</html>
+  <script src="./js/main.js"></script>
+</body></html>
