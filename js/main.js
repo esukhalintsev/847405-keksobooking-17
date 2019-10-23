@@ -13,8 +13,6 @@ var MAIN_PIN_WIDTH = 62;
 var MAIN_PIN_HEIGHT = 62;
 var MAIN_PIN_POINT_HEIGHT = 22;
 
-//378 по верхнему краю
-
 //массивы
 var pins = [];
 
@@ -26,19 +24,55 @@ var adForm = document.querySelector('.ad-form');
 var inputs = document.querySelectorAll('input');
 var selectors = document.querySelectorAll('select');
 var addressField = adForm.querySelector('#address');
+var priceField = adForm.querySelector('#price');
+var typeField = adForm.querySelector('#type');
+var arrivalField = adForm.querySelector('#timein');
+var departureField = adForm.querySelector('#timeout');
 
-//блокировка инпутов
-var disableInputs = function (form, disabledClass, arr, disabled, ) {
-  if (form.classList.contains = disabledClass) {
-    for (var i = 0; i < arr.length; i++) {
-      var input = arr[i];
-      input.disabled = true;
-    }
-  }
+//синхронизация времени заезда/выезда
+var checkTimeInOut = function (timeFirst, timeSecond) {
+  timeSecond.value = timeFirst.value;
+};
+
+//изменение времени выезда
+arrivalField.addEventListener('change', function () {
+  checkTimeInOut(arrivalField, departureField);
+});
+
+//изменение времени заезда
+departureField.addEventListener('change', function () {
+  checkTimeInOut(departureField, arrivalField);
+});
+
+//соотношение типа жилья к мин.цене
+var typePrice = {
+  'palace': 10000,
+  'flat': 1000,
+  'house': 5000,
+  'bungalo': 0
 }
 
-disableInputs(adForm, 'ad-form--disabled', inputs, true);
-disableInputs(adForm, 'ad-form--disabled', selectors, true);
+//изменение мин.цены в зависимости от типа жилья
+typeField.addEventListener('change', function () {
+  var currentValue = typeField.value;
+  var currentPrice = typePrice[currentValue];
+  priceField.min = currentPrice;
+  priceField.placeholder = currentPrice;
+});
+
+//блокировка инпутов
+var blockInputs = function (arr) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+//активация инпутов
+var activateInputs = function (arr) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i].removeAttribute('disabled', 'disabled');
+  }
+};
 
 //активация карты
 var activateMap = function () {
@@ -46,13 +80,9 @@ var activateMap = function () {
   adForm.classList.remove('ad-form--disabled');
   addPins();
   getMainPinAddres();
+  activateInputs(inputs);
+  activateInputs(selectors);
 };
-
-//показ карты по клику
-mainPin.addEventListener('mouseup', function (evt) {
-  evt.preventDefault();
-  activateMap();
-});
 
 //генерация адреса
 var getMainPinAddres = function () {
@@ -118,3 +148,12 @@ var addPins = function () {
   mapPins.appendChild(fragment);
 
 };
+
+blockInputs(inputs);
+blockInputs(selectors);
+
+//показ карты по клику
+mainPin.addEventListener('mouseup', function (evt) {
+  evt.preventDefault();
+  activateMap();
+});
