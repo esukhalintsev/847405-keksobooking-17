@@ -1,9 +1,6 @@
 'use strict';
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 
-var map_pins = document.querySelector('.map__pins');
-
+//константы
 var PIN_WIDTH = 40;
 var PIN_HEIGHT = 44;
 var MIN_X = 320;
@@ -11,9 +8,61 @@ var MAX_X = 1200;
 var MIN_Y = 130;
 var MAX_Y = 630;
 var PINS_COUNT = 8;
-
-var pins = [];
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var MAIN_PIN_WIDTH = 62;
+var MAIN_PIN_HEIGHT = 62;
+var MAIN_PIN_POINT_HEIGHT = 22;
+
+//378 по верхнему краю
+
+//массивы
+var pins = [];
+
+//переменные
+var map = document.querySelector('.map');
+var mapPins = document.querySelector('.map__pins');
+var mainPin = mapPins.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var inputs = document.querySelectorAll('input');
+var selectors = document.querySelectorAll('select');
+var addressField = adForm.querySelector('#address');
+
+//блокировка инпутов
+var disableInputs = function (form, disabledClass, arr, disabled, ) {
+  if (form.classList.contains = disabledClass) {
+    for (var i = 0; i < arr.length; i++) {
+      var input = arr[i];
+      input.disabled = true;
+    }
+  }
+}
+
+disableInputs(adForm, 'ad-form--disabled', inputs, true);
+disableInputs(adForm, 'ad-form--disabled', selectors, true);
+
+//активация карты
+var activateMap = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  addPins();
+  getMainPinAddres();
+};
+
+//показ карты по клику
+mainPin.addEventListener('mouseup', function (evt) {
+  evt.preventDefault();
+  activateMap();
+});
+
+//генерация адреса
+var getMainPinAddres = function () {
+  var x = mainPin.style.left;
+  x = parseInt(x, 10);
+  var y = mainPin.style.top;
+  y = parseInt(y, 10);
+  // x = начальная точка + половина размера пина, y = начальная точка + вся высота пина + высота острого конца
+  addressField.value = (x + MAIN_PIN_WIDTH / 2) + ', ' + (y + MAIN_PIN_HEIGHT + MAIN_PIN_POINT_HEIGHT);
+};
 
 //возвращает случайный элемент из массива
 var getRandomElement = function (arr) {
@@ -61,8 +110,11 @@ var renderPins = function (pin) {
 };
 
 //добавление пинов на карту
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < pins.length; i++) {
-  fragment.appendChild(renderPins(pins[i]));
-}
-map_pins.appendChild(fragment);
+var addPins = function () {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < pins.length; i++) {
+    fragment.appendChild(renderPins(pins[i]));
+  }
+  mapPins.appendChild(fragment);
+
+};
